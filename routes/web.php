@@ -30,9 +30,32 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/home', function () {
     return '<h1>Home</h1>';
-});
-Route::get('/admin', function () {
-    return '<h1>Admin</h1>';
+})->name('home');
+
+Route::get('/cocacola', function () {
+    return '<h1>Cocacola</h1>';
+})->name('cocacola');
+
+Route::get('/chivas', function () {
+    return '<h1>Chivas</h1>';
+})->name('chivas')->middleware('auth.adult');
+
+Route::middleware('auth.admin')->name('admin.')->group(function () {
+    Route::get('/admin', function () {
+        return view('admin.pages.dashboard');
+    })->name('admin');
+
+    Route::get('/admin/user', function () {
+        return view('admin.pages.user');
+    })->name('user');
+
+    Route::get('/admin/blog', function () {
+        return view('admin.pages.blog');
+    })->name('blog');
+
+    Route::get('/admin/product', function () {
+        return view('admin.pages.product');
+    })->name('product');
 });
 
 require __DIR__.'/auth.php';

@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use  Illuminate\Http\Facades\Auth;
 
 class IsAdmin
 {
@@ -16,9 +17,7 @@ class IsAdmin
     public function handle(Request $request, Closure $next): Response
     {
         // Get current user
-        $user = Auth::user();
-
-        if ($user->role === 1){
+        if(!Auth::check() && Auth::user()->role){
             return $next($request);
         } else {
             return redirect()->route('home');
